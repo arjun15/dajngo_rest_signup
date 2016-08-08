@@ -67,3 +67,11 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ('id', 'username', 'email', 'password',
                   'confirm_password', 'mobile_number')
+
+
+class UpdateSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.id')
+
+    class Meta:
+        model = User
+        fields = ('user', 'username', 'email', 'password')

@@ -4,11 +4,12 @@ importing allowany from rest_framework,
 serializer from signup app
 """
 from django.contrib.auth.models import User
+from rest_framework import permissions
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import (
     CreateAPIView, ListAPIView, RetrieveAPIView, DestroyAPIView, UpdateAPIView)
-
-from signup.serializers import UserSerializer
+from signup.permissions import IsOwnerOrReadOnly
+from signup.serializers import (UserSerializer, UpdateSerializer)
 
 
 class CreateUserView(CreateAPIView):
@@ -42,14 +43,21 @@ class UserDelete(DestroyAPIView):
     """
     to delete a particular user
     """
-    queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def post(self, request):
+        user = get_user(request)
+        user.set_unusable_password()
+        user.is_active = False
+        user.save()
 
 
 class UserUpdate(UpdateAPIView):
     """
     updates the user details
     """
-    permission_classes = (AllowAny,)
+    model = User
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = UpdateSerializer
+    permission_class = (
+        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
