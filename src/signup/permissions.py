@@ -6,6 +6,10 @@ from rest_framework import permissions
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
 
+    """
+    Check for owner
+    """
+
     def has_object_permission(self, request, view, obj):
         """
         check user login

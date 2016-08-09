@@ -46,7 +46,6 @@ class TestUser(APITestCase):
                                         'confirm_password': 'qwerty',
                                         'mobile_number': '+918149888748'})
         self.assertEqual(response.status_code, 400)
-        print(response.content)
 
     def test_validate_confirm_password(self):
         """

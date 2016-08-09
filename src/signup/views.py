@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from rest_framework import permissions
 from rest_framework.permissions import AllowAny
 from rest_framework.generics import (
-    CreateAPIView, ListAPIView, RetrieveAPIView, DestroyAPIView, UpdateAPIView)
+    CreateAPIView, ListAPIView, RetrieveAPIView, UpdateAPIView)
 from signup.permissions import IsOwnerOrReadOnly
 from signup.serializers import (UserSerializer, UpdateSerializer)
 
@@ -39,19 +39,6 @@ class UserDetail(RetrieveAPIView):
     serializer_class = UserSerializer
 
 
-class UserDelete(DestroyAPIView):
-    """
-    to delete a particular user
-    """
-    serializer_class = UserSerializer
-
-    def post(self, request):
-        user = get_user(request)
-        user.set_unusable_password()
-        user.is_active = False
-        user.save()
-
-
 class UserUpdate(UpdateAPIView):
     """
     updates the user details
@@ -59,5 +46,3 @@ class UserUpdate(UpdateAPIView):
     model = User
     queryset = User.objects.all()
     serializer_class = UpdateSerializer
-    permission_class = (
-        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)

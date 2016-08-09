@@ -70,6 +70,9 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UpdateSerializer(serializers.ModelSerializer):
+    """
+    for user update put and patch
+    """
     user = serializers.ReadOnlyField(source='user.id')
 
     class Meta:
