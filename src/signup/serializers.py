@@ -3,6 +3,7 @@ importing user model and serializer model
 """
 from django.contrib.auth.models import User
 from rest_framework import serializers
+from signup.models import MyPhoto
 from signup.utiles import send_twilio_message
 
 
@@ -78,3 +79,12 @@ class UpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('user', 'username', 'email', 'password')
+
+
+class MyPhotoSerializer(serializers.ModelSerializer):
+    image = serializers.ImageField(max_length=None, use_url=True)
+    doc = serializers.FileField(max_length=None, use_url=True)
+
+    class Meta:
+        model = MyPhoto
+        fields = ('name', 'image', 'doc')

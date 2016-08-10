@@ -38,6 +38,7 @@ class TestUser(TestCase):
         response = self.client.patch(
             "http://127.0.0.1:8000/user/update/1/", json, content_type='application/json')
         self.assertEqual(response.status_code, 200)
+
         # self.assertEqual(response.status_code, 200)
         print(response.data)
         response = self.client.get("http://127.0.0.1:8000/user/1/")
